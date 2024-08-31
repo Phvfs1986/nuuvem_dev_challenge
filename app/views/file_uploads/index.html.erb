@@ -1,0 +1,55 @@
+<% unless @file_uploads.empty? %>
+  <div class="relative overflow-x-auto bg-white shadow-md rounded-lg">
+    <% @file_uploads.each do |file_upload| %>
+      <div class="border-b border-gray-200 dark:border-gray-700 mb-6">
+        <div class="px-6 py-4 bg-gray-100 dark:bg-gray-800">
+          <h2 class="text-lg font-semibold text-gray-900 dark:text-gray-100">
+            <%= file_upload.id %>
+          </h2>
+          <p class="text-gray-600 dark:text-gray-400">
+            Uploaded On: <%= file_upload.uploaded_at.strftime('%d/%m/%Y at %H:%M') %>
+          </p>
+        </div>
+        <div class="overflow-x-auto mt-4">
+          <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-6 py-3">Purchaser</th>
+                <th scope="col" class="px-6 py-3">Item</th>
+                <th scope="col" class="px-6 py-3">Merchant</th>
+                <th scope="col" class="px-6 py-3">Item Price</th>
+                <th scope="col" class="px-6 py-3">Purchase Count</th>
+                <th scope="col" class="px-6 py-3">Income</th>
+              </tr>
+            </thead>
+            <tbody>
+              <% file_upload.transactions.each do |transaction| %>
+                <% income = transaction.item.price * transaction.count %>
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                  <td class="px-6 py-4"><%= transaction.purchaser.name %></td>
+                  <td class="px-6 py-4"><%= transaction.item.description %></td>
+                  <td class="px-6 py-4"><%= transaction.merchant.name %></td>
+                  <td class="px-6 py-4"><%= number_to_currency(transaction.item.price) %></td>
+                  <td class="px-6 py-4"><%= transaction.count %></td>
+                  <td class="px-6 py-4"><%= number_to_currency(income) %></td>
+                </tr>
+              <% end %>
+              <tr class="bg-gray-200 dark:bg-gray-800 font-semibold text-gray-900 dark:text-gray-100">
+                <td colspan="5" class="px-6 py-4 text-right">Subtotal Income:</td>
+                <td class="px-6 py-4"><%= number_to_currency(file_upload.transactions.sum { |t| t.item.price * t.count }) %></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    <% end %>
+    <div class="border-t border-gray-200 dark:border-gray-700 mt-6">
+      <div class="px-6 py-4 bg-gray-100 dark:bg-gray-800 font-semibold text-gray-900 dark:text-gray-100">
+        Grand Total Income:
+      </div>
+      <div class="px-6 py-4">
+        <%= number_to_currency(@total_income) %>
+      </div>
+    </div>
+  </div>
+<% end %>
