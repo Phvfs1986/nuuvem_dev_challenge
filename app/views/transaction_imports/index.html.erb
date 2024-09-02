@@ -1,0 +1,32 @@
+<div class="min-h-full px-4 sm:px-6 lg:px-8">
+  <h1 class="text-2xl font-semibold mb-4 text-center">Dashboard</h1>
+  <div class="flex justify-center">
+    <div class="w-full max-w-4xl">
+      <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+        <div class="flex justify-between items-center">
+          <div class="text-lg font-bold mr-4">Total Files Imported:</div>
+          <div><%= @transaction_imports.size %></div>
+        </div>
+      </div>
+      <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+        <div class="flex justify-between items-center">
+          <div class="text-lg font-bold mr-4">Total All-time Income</div>
+          <div>$<%= @all_time_total_income %></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
+  <div class="relative overflow-x-auto bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-4xl">
+    <div class="overflow-x-auto mt-4">
+      <%= render partial: "layouts/elements/table",
+          locals: {
+            collection: @transaction_imports,
+            # fields: [:uploaded_at, :file_total_income, :actions],
+            serializer: TransactionImportSerializer
+          }
+        %>
+    </div>
+  </div>
+</div>

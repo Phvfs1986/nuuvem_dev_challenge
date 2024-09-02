@@ -8,21 +8,29 @@
     <%= csp_meta_tag %>
     <%= yield :head %>
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="/assets/cloud.png" type="image/png">
+    <link rel="apple-touch-icon" href="/assets/cloud.png">
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
   <body>
-    <% flash.each do |type, msg| %>
-      <div class="container mx-auto mt-28 px-5 flex">
-        <%= msg %>
+    <%= render partial: "shared/navbar" %>
+    <div class="relative">
+      <div class="fixed top-15 left-4 mt-4 flex flex-col items-start space-y-2 z-50">
+        <% flash.each do |type, msg| %>
+          <div class="flash-message w-full max-w-xs p-2 text-white rounded-lg
+            <%= case type
+                when "notice" then "bg-green-500"
+                when "alert" then "bg-red-500"
+                else "bg-gray-500"
+            end %>">
+            <p class="text-center"><%= msg %></p>
+          </div>
+        <% end %>
       </div>
-    <% end %>
-    <main class="flex items-center justify-center min-h-screen bg-gray-100">
-      <%= yield %>
-    </main>
-  </body>
-</html>
+      <main class="p-8">
+        <%= yield %>
+      </main>
+    </body>
+  </html>

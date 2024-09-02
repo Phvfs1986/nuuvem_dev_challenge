@@ -1,9 +1,0 @@
-<div class="max-w-lg mx-auto">
-  <%= form_with url: file_uploads_path, local: true, multipart: true do |form| %>
-    <div class="space-y-8 font-[sans-serif] max-w-md mx-auto">
-      <%= form.label :file, "Upload File", class: "sr-only" %>
-      <%= form.file_field :file, class: "w-full font-medium text-base bg-gray-100 file:cursor-pointer cursor-pointer file:border-0 file:py-2.5 file:px-4 file:mr-4 file:bg-gray-500 file:hover:bg-gray-700 file:text-white rounded"%>
-      <%= form.submit "Upload", class: "flex bg-blue-500 hover:bg-blue-700 text-white text-base px-5 py-3 outline-none rounded w-max cursor-pointer mx-auto" %>
-    </div>
-  <% end %>
-</div>
