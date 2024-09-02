@@ -2,7 +2,7 @@
   <div class="flex justify-center">
     <div class="w-full max-w-4xl pb-8">
       <div class="flex justify-between items-center">
-        <h1 class="text-4xl font-semibold mb-4 text-center">Import Details</h1>
+        <h1 class="text-4xl font-semibold mb-4 text-center">Merchant Details</h1>
         <%= link_to "<- Back", :back, class: "text-xl font-semibold" %>
       </div>
     </div>
@@ -11,20 +11,14 @@
     <div class="w-full max-w-4xl">
       <div class="bg-white shadow-md rounded-lg p-4 mb-4">
         <div class="flex justify-between items-center">
-          <div class="text-lg font-bold mr-4">Date:</div>
-          <div><%= @transaction_import.uploaded_at %></div>
+          <div class="text-lg font-bold mr-4">Name:</div>
+          <div><%= @merchant.name %></div>
         </div>
       </div>
       <div class="bg-white shadow-md rounded-lg p-4 mb-4">
         <div class="flex justify-between items-center">
-          <div class="text-lg font-bold mr-4">File Total Income:</div>
-          <div><strong><%= @transaction_import.file_total_income %></strong></div>
-        </div>
-      </div>
-      <div class="bg-white shadow-md rounded-lg p-4 mb-4">
-        <div class="flex justify-between items-center">
-          <div class="text-lg font-bold mr-4">Download Imported File:</div>
-          <div><%= @transaction_import.download_link %></div>
+          <div class="text-lg font-bold mr-4">Address:</div>
+          <div><%= @merchant.address %></div>
         </div>
       </div>
     </div>
@@ -33,10 +27,11 @@
 <div class="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
   <div class="relative overflow-x-auto bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-4xl">
     <div class="overflow-x-auto mt-4">
+      <h1 class="text-3xl font-semibold mb-4">Items</h1>
       <%= render partial: "layouts/elements/table",
           locals: {
-            collection: @transactions,
-            serializer: TransactionSerializer
+            collection: @merchant_items,
+            serializer: ItemSerializer
           }
         %>
     </div>

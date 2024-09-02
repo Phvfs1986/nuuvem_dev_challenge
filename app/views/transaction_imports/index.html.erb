@@ -8,15 +8,25 @@
     </div>
   </div>
 </div>
-<div class="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
-  <div class="relative overflow-x-auto bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-4xl">
-    <div class="overflow-x-auto mt-4">
-      <%= render partial: "layouts/elements/table",
+<% if @transaction_imports.empty? %>
+  <div class="flex items-between justify-center py-20 sm:px-6 lg:px-8">
+    <div class="bg-white shadow-md rounded-lg p-8 mb-8 w-full max-w-4xl">
+      <div class="text-3xl text-center">
+        Nothing imported yet!
+      </div>
+    </div>
+  </div>
+<% else %>
+  <div class="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-8">
+    <div class="relative overflow-x-auto bg-white shadow-md rounded-lg p-4 mb-4 w-full max-w-4xl">
+      <div class="overflow-x-auto mt-4">
+        <%= render partial: "layouts/elements/table",
           locals: {
             collection: @transaction_imports,
             serializer: TransactionImportSerializer
           }
         %>
+      </div>
     </div>
   </div>
-</div>
+<% end %>

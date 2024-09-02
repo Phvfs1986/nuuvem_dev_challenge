@@ -10,7 +10,8 @@ class TransactionSerializer < ApplicationSerializer
   end
 
   def merchant
-    @transaction.merchant.name
+    merchant = @transaction.merchant
+    helpers.link_to(merchant.name, merchant_path(merchant))
   end
 
   def purchaser
@@ -31,5 +32,11 @@ class TransactionSerializer < ApplicationSerializer
 
   def income
     content_tag(:strong, number_to_currency(@transaction.item.price * @transaction.count, unit: "$"))
+  end
+
+  private
+
+  def helpers
+    ActionController::Base.helpers
   end
 end

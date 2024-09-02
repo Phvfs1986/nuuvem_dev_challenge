@@ -16,4 +16,5 @@ Rails.application.routes.draw do
   root "transactions#index"
 
   resources :transaction_imports, except: [:edit]
+  resources :merchants, only: [:show]
 end
