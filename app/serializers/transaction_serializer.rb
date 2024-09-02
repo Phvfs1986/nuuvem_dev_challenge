@@ -1,6 +1,9 @@
-class TransactionSerializer
-  include ActionView::Helpers
+class TransactionSerializer < ApplicationSerializer
   include Rails.application.routes.url_helpers
+  include ActionView::Helpers::NumberHelper
+  include ActionView::Helpers::TagHelper
+
+  attributes :merchant, :purchaser, :item_description, :item_price, :count, :income
 
   def initialize(transaction)
     @transaction = transaction
@@ -19,7 +22,7 @@ class TransactionSerializer
   end
 
   def item_price
-    format_price(@transaction.item.price)
+    number_to_currency(@transaction.item.price * @transaction.count, unit: "$")
   end
 
   def count
@@ -27,47 +30,6 @@ class TransactionSerializer
   end
 
   def income
-    "<strong>#{format_price(@transaction.item.price * @transaction.count)}</strong>".html_safe
-  end
-
-  def format_price(price)
-    "$#{format("%.2f", price)}"
-  end
-
-  class << self
-    def attributes
-      [
-        :merchant,
-        :purchaser,
-        :item_description,
-        :item_price,
-        :count,
-        :income
-      ]
-    end
-
-    def merchant_label
-      "Merchant"
-    end
-
-    def purchaser_label
-      "Purchaser"
-    end
-
-    def item_description_label
-      "Item"
-    end
-
-    def item_price_label
-      "Price"
-    end
-
-    def count_label
-      "Quantity"
-    end
-
-    def income_label
-      "Income"
-    end
+    content_tag(:strong, number_to_currency(@transaction.item.price * @transaction.count, unit: "$"))
   end
 end

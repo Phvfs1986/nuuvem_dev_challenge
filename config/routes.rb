@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   get "manifest" => "rails/pwa#manifest", :as => :pwa_manifest
 
   # Defines the root path route ("/")
-  root "transaction_imports#index"
+  root "transactions#index"
 
-  resources :transaction_imports, except: [:edit, :upload]
+  resources :transaction_imports, except: [:edit]
 end

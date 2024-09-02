@@ -1,15 +1,15 @@
 <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
   <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
     <tr>
-      <% serializer.attributes.each do |field| %>
-        <th scope="col" class="px-6 py-3"><%= serializer.public_send("#{field}_label") %></th>
+      <% serializer.get_labels.each do |field| %>
+        <th scope="col" class="px-6 py-3"><%= field %></th>
       <% end %>
     </tr>
   </thead>
   <tbody>
     <% collection.each do |element| %>
       <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
-        <% serializer.attributes.each do |field| %>
+        <% serializer.get_attributes.each do |field| %>
           <td class="px-6 py-4"><%= serializer.new(element).public_send(field) %></td>
         <% end %>
       </tr>

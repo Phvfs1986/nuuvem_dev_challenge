@@ -1,50 +1,36 @@
-class TransactionImportSerializer
-  include ActionView::Helpers
+class TransactionImportSerializer < ApplicationSerializer
   include Rails.application.routes.url_helpers
+  include ActionView::Helpers::NumberHelper
+
+  attributes :uploaded_at, :file_total_income, actions: "Custom Actions Label"
 
   def initialize(transaction_import)
     @transaction_import = transaction_import
   end
 
   def uploaded_at
-    @transaction_import.uploaded_at.strftime("%d/%m/%Y at %H:%m")
+    @transaction_import.uploaded_at.strftime("%d/%m/%Y at %H:%M")
   end
 
   def file_total_income
-    "$#{@transaction_import.file_total_income}"
+    number_to_currency(@transaction_import.file_total_income, unit: "$")
   end
 
   def download_link
     order_file = @transaction_import.order_file
-    link_to order_file.filename, Rails.application.routes.url_helpers.rails_blob_path(order_file, only_path: true)
+    helpers.link_to order_file.filename, rails_blob_path(order_file, only_path: true)
   end
 
   def actions
-    show_link = link_to("Show", transaction_import_path(@transaction_import))
-    download_link = link_to("Download File", rails_blob_path(@transaction_import.order_file, only_path: true))
+    show_link = helpers.link_to("Show", transaction_import_path(@transaction_import))
+    download_link = helpers.link_to("Download File", rails_blob_path(@transaction_import.order_file, only_path: true))
 
-    safe_join([show_link, download_link], " | ")
+    helpers.safe_join([show_link, download_link], " | ")
   end
 
-  class << self
-    def attributes
-      [
-        :uploaded_at,
-        :file_total_income,
-        :actions
-      ]
-    end
+  private
 
-    def uploaded_at_label
-      "Uploaded At"
-    end
-
-    def file_total_income_label
-      "File Total Income"
-    end
-
-    def actions_label
-      "Actions"
-    end
+  def helpers
+    ActionController::Base.helpers
   end
 end

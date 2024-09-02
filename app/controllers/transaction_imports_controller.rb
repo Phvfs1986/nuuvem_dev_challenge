@@ -1,7 +1,6 @@
 class TransactionImportsController < ApplicationController
   def index
     @transaction_imports = TransactionImport.all
-    @all_time_total_income = format("%.2f", Transaction.total_income)
   end
 
   def show

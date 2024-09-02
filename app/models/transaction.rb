@@ -7,7 +7,7 @@ class Transaction < ApplicationRecord
   validates :purchaser, :item, :merchant, :transaction_import, presence: true
   validates :count, presence: true, numericality: {greater_than: 0}
 
-  def self.total_income
+  def self.all_time_total_income
     includes(:item).sum { |transaction| transaction.item.price * transaction.count }
     # joins(:item).sum("count * price")
   end
