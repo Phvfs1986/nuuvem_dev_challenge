@@ -3,18 +3,20 @@ require "rails_helper"
 RSpec.describe Item, type: :model do
   describe "validations" do
     it "is valid with valid attributes" do
-      item = Item.new(description: "Product 1", price: 10.0)
+      item = build(:item, description: "banana", price: 5.0)
       expect(item).to be_valid
     end
 
     it "is invalid without a description" do
-      item = Item.new(price: 10.0)
+      item = build(:item, description: nil)
       expect(item).to_not be_valid
+      expect(item.errors[:description]).to include("can't be blank")
     end
 
     it "is invalid without a price" do
-      item = Item.new(description: "Product 1")
+      item = build(:item, price: nil)
       expect(item).to_not be_valid
+      expect(item.errors[:price]).to include("can't be blank")
     end
   end
 

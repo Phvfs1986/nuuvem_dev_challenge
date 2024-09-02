@@ -1,96 +1,87 @@
-# spec/models/transaction_spec.rb
 require "rails_helper"
 
 RSpec.describe Transaction, type: :model do
-  let(:purchaser) { Purchaser.create(name: "John Doe") }
-  let(:item) { Item.create(description: "Item 1", price: 10.0) }
-  let(:merchant) { Merchant.create(name: "Merchant 1", address: "123 Street") }
-  let(:file_upload) { FileUpload.create(uploaded_at: Time.current) }
+  describe "associations" do
+    it "belongs to a purchaser" do
+      association = described_class.reflect_on_association(:purchaser)
+      expect(association.macro).to eq :belongs_to
+    end
 
-  it "is valid with a purchaser, item, merchant, file_upload, and count" do
-    transaction = Transaction.new(
-      purchaser:,
-      item:,
-      merchant:,
-      file_upload:,
-      count: 2
-    )
-    expect(transaction).to be_valid
+    it "belongs to an item" do
+      association = described_class.reflect_on_association(:item)
+      expect(association.macro).to eq :belongs_to
+    end
+
+    it "belongs to a merchant" do
+      association = described_class.reflect_on_association(:merchant)
+      expect(association.macro).to eq :belongs_to
+    end
+
+    it "belongs to a transaction_import" do
+      association = described_class.reflect_on_association(:transaction_import)
+      expect(association.macro).to eq :belongs_to
+    end
   end
 
-  it "is invalid without a purchaser" do
-    transaction = Transaction.new(
-      purchaser: nil,
-      item:,
-      merchant:,
-      file_upload:,
-      count: 2
-    )
-    expect(transaction).not_to be_valid
+  describe "validations" do
+    let(:transaction) { create(:transaction) }
+
+    it "is valid with all required attributes" do
+      expect(transaction).to be_valid
+    end
+
+    it "is invalid without purchaser" do
+      transaction = build(:transaction, purchaser: nil)
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:purchaser]).to include("can't be blank")
+    end
+
+    it "is invalid without item" do
+      transaction = build(:transaction, item: nil)
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:item]).to include("can't be blank")
+    end
+
+    it "is invalid without merchant" do
+      transaction = build(:transaction, merchant: nil)
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:merchant]).to include("can't be blank")
+    end
+
+    it "is invalid without transaction_import" do
+      transaction = build(:transaction, transaction_import: nil)
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:transaction_import]).to include("can't be blank")
+    end
+
+    it "is invalid without count" do
+      transaction = build(:transaction, count: nil)
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:count]).to include("can't be blank")
+    end
+
+    it "is invalid with non-numeric count" do
+      transaction = build(:transaction, count: "banana")
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:count]).to include("is not a number")
+    end
+
+    it "is invalid with count less than or equal to 0" do
+      transaction = build(:transaction, count: 0)
+      expect(transaction).to_not be_valid
+      expect(transaction.errors[:count]).to include("must be greater than 0")
+    end
   end
 
-  it "is invalid without an item" do
-    transaction = Transaction.new(
-      purchaser:,
-      item: nil,
-      merchant:,
-      file_upload:,
-      count: 2
-    )
-    expect(transaction).not_to be_valid
-  end
+  describe ".all_time_total_income" do
+    let!(:item1) { create(:item, description: "First", price: 15.0) }
+    let!(:item2) { create(:item, description: "Second", price: 30.0) }
+    let!(:transaction_import) { create(:transaction_import) }
+    let!(:transaction1) { create(:transaction, item: item1, count: 2, transaction_import:) }
+    let!(:transaction2) { create(:transaction, item: item2, count: 3, transaction_import:) }
 
-  it "is invalid without a merchant" do
-    transaction = Transaction.new(
-      purchaser:,
-      item:,
-      merchant: nil,
-      file_upload:,
-      count: 2
-    )
-    expect(transaction).not_to be_valid
-  end
-
-  it "is invalid without a file_upload" do
-    transaction = Transaction.new(
-      purchaser:,
-      item:,
-      merchant:,
-      file_upload: nil,
-      count: 2
-    )
-    expect(transaction).not_to be_valid
-  end
-
-  it "is invalid without a count" do
-    transaction = Transaction.new(
-      purchaser:,
-      item:,
-      merchant:,
-      file_upload:,
-      count: nil
-    )
-    expect(transaction).not_to be_valid
-  end
-
-  it "is invalid with a count of 0 or less" do
-    transaction = Transaction.new(
-      purchaser:,
-      item:,
-      merchant:,
-      file_upload:,
-      count: 0
-    )
-    expect(transaction).not_to be_valid
-    transaction.count = -1
-    expect(transaction).not_to be_valid
-  end
-
-  it "calculates total income" do
-    Transaction.create(purchaser:, item:, merchant:, file_upload:, count: 2)
-    item2 = Item.create(description: "Item 2", price: 20.0)
-    Transaction.create(purchaser:, item: item2, merchant:, file_upload:, count: 3)
-
-    expect(Transaction.total_income).to eq(80.0)
+    it "calculates the correct total income" do
+      expect(Transaction.all_time_total_income).to eq(120.0)
+    end
   end
 end

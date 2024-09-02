@@ -5,15 +5,11 @@ class User < ApplicationRecord
     :recoverable, :rememberable, :validatable,
     :omniauthable, omniauth_providers: %i[google_oauth2]
 
-  def self.from_omniauth(access_token)
-    data = access_token.info
-    puts data
-    user = User.where(email: data["email"]).first
-
-    user ||= User.create(
-      email: data["email"],
+  def self.from_google(provider_user)
+    create_with(
+      provider_uid: provider_user[:uid],
+      provider: "google",
       password: Devise.friendly_token[0, 20]
-    )
-    user
+    ).find_or_create_by!(email: provider_user[:email])
   end
 end

@@ -9,6 +9,5 @@ class Transaction < ApplicationRecord
 
   def self.all_time_total_income
     includes(:item).sum { |transaction| transaction.item.price * transaction.count }
-    # joins(:item).sum("count * price")
   end
 end
