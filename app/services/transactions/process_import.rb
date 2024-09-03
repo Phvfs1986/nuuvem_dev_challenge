@@ -5,18 +5,11 @@ module Transactions
     end
 
     def call
-      transaction_control = true
+      transaction_import = TransactionImport.create(order_file: @order_file, uploaded_at: Time.now)
+      transaction_import.change_status(:initializing)
 
-      ActiveRecord::Base.transaction do
-        transaction_import = TransactionImport.new(order_file: @order_file)
-        transaction_import.uploaded_at = Time.now
-        transaction_control &&= transaction_import.save
-
-        transaction_control &&= FileProcessor.process(@order_file, transaction_import)
-
-        raise ActiveRecord::Rollback unless transaction_control
-        transaction_import.update_file_total_income
-      end
+      TransactionProcessorJob.perform_async(transaction_import.id)
+      transaction_import.change_status(:enqueued)
     end
   end
 end

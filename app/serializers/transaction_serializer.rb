@@ -11,7 +11,7 @@ class TransactionSerializer < ApplicationSerializer
 
   def merchant
     merchant = @transaction.merchant
-    helpers.link_to(merchant.name, merchant_path(merchant))
+    helpers.link_to(merchant.name, merchant_path(merchant), class: "underline text-blue-500 pointer")
   end
 
   def purchaser

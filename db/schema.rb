@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_02_222855) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_03_004931) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -73,6 +73,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_02_222855) do
     t.decimal "file_total_income"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "import_status"
   end
 
   create_table "transactions", force: :cascade do |t|
