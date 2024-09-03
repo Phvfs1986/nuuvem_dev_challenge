@@ -47,6 +47,7 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
   gem "rspec-rails"
   gem "factory_bot_rails"
+  gem "rails-controller-testing"
 end
 
 group :development do
@@ -68,3 +69,4 @@ gem "omniauth-rails_csrf_protection"
 gem "dotenv-rails"
 gem "sidekiq", "~> 7.3"
 gem "pagy"
+gem "active_storage_validations"

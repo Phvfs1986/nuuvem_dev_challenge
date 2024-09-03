@@ -2,7 +2,7 @@ class TransactionImport < ApplicationRecord
   has_one_attached :order_file
   has_many :transactions
 
-  validate :order_file_present
+  validates :order_file, attached: true, content_type: [:tab]
 
   IMPORT_STATUS = %i[initializing enqueued processing finished error]
 
@@ -18,11 +18,5 @@ class TransactionImport < ApplicationRecord
 
   def change_status(status)
     update(import_status: status) if IMPORT_STATUS.include?(status)
-  end
-
-  private
-
-  def order_file_present
-    nil unless order_file.attached?
   end
 end

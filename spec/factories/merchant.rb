@@ -1,4 +1,3 @@
-# spec/factories/merchants.rb
 FactoryBot.define do
   factory :merchant do
     name { "Claudio" }

@@ -11,7 +11,7 @@ module Transactions
           merchant.items << item unless merchant.items.exists?(item.id)
           count = row["purchase count"]
 
-          Transaction.new(purchaser:, item:, count:, merchant:, transaction_import:).save
+          Transaction.create!(purchaser:, item:, count:, merchant:, transaction_import:)
         end
       end
     end

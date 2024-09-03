@@ -17,7 +17,10 @@ class TransactionImportsController < ApplicationController
   def create
     @transaction_import = Transactions::ProcessImport.new(**transaction_imports_params.to_h.symbolize_keys).call
 
-    redirect_to action: :index
+    return redirect_to action: :index if @transaction_import.persisted?
+
+    flash.now[:alert] = @transaction_import.errors.full_messages.join("\n")
+    render :new, status: :bad_request
   end
 
   private

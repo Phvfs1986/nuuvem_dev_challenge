@@ -1,11 +1,26 @@
 FactoryBot.define do
   factory :transaction_import do
-    after(:build) do |transaction_import|
-      transaction_import.order_file.attach(
-        io: File.open(Rails.root.join("spec", "fixtures", "files", "example_input.tab")),
-        filename: "example_input.tab",
-        content_type: "text/tab-separated-values"
-      )
+    import_status { :initializing }
+    file_total_income { 0.0 }
+
+    trait :with_valid_file do
+      after(:build) do |transaction_import|
+        transaction_import.order_file.attach(
+          io: File.open(Rails.root.join("spec/fixtures/files/example_input.tab")),
+          filename: "example_input.tab",
+          content_type: [:tab]
+        )
+      end
+    end
+
+    trait :with_invalid_file do
+      after(:build) do |transaction_import|
+        transaction_import.order_file.attach(
+          io: File.open(Rails.root.join("spec/fixtures/files/sample.txt")),
+          filename: "example.txt",
+          content_type: "text/plain"
+        )
+      end
     end
   end
 end
