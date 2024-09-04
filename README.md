@@ -1,7 +1,8 @@
 
 # Nuuvem Dev Test
 
-## Este é um aplicativo desenvolvido em Ruby on Rails com Tailwind CSS e Redis. Abaixo estão as instruções para configurar e executar o projeto localmente. {#este-é-um-aplicativo-desenvolvido-em-ruby-on-rails-com-tailwind-css-e-redis.-abaixo-estão-as-instruções-para-configurar-e-executar-o-projeto-localmente.}
+## Este é um aplicativo desenvolvido em Ruby on Rails com Tailwind CSS e Redis.
+## Abaixo estão as instruções para configurar e executar o projeto localmente.
 
 ## Requisitos
 
