@@ -1,3 +1,12 @@
+<div class="min-h-full px-4 sm:px-6 lg:px-8">
+  <div class="flex justify-center">
+    <div class="w-full max-w-4xl pb-8">
+      <div class="flex justify-end items-center">
+        <%= link_to "<- Back", root_path, class: "text-xl font-semibold" %>
+      </div>
+    </div>
+  </div>
+</div>
 <div class="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
   <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= render "devise/shared/error_messages", resource: resource %>
@@ -37,5 +46,14 @@
         focus:ring-indigo-500" %>
       </div>
     </div>
+  <% end %>
+</div>
+<div class="flex items-center justify-center space-x-4 w-full">
+  <%- if devise_mapping.omniauthable? %>
+    <%- resource_class.omniauth_providers.each do |provider| %>
+      <%= button_to omniauth_authorize_path(resource_name, provider), data: { turbo: false } do %>
+        <%= image_tag("web_light_sq_SU@1x.png", alt: "Sign in with #{OmniAuth::Utils.camelize(provider)}") %>
+      <% end %><br />
+    <% end %>
   <% end %>
 </div>
