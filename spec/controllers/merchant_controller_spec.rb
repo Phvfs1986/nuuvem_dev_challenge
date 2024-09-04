@@ -7,7 +7,7 @@ RSpec.describe MerchantsController, type: :controller do
   describe "GET #show" do
     let(:merchant) { create(:merchant) }
     let!(:items) { create_list(:item, 3) }
-    let!(:merchant_items) { items.map { |item| create(:merchant_item, merchant: merchant, item: item) } }
+    let!(:merchant_items) { items.map { |item| create(:merchant_item, merchant:, item:) } }
 
     before do
       @user = create(:user)

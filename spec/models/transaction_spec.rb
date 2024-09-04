@@ -30,7 +30,7 @@ RSpec.describe Transaction, type: :model do
 
   context "validations" do
     it "is valid with all required attributes" do
-      transaction = build(:transaction, purchaser: purchaser, item: item, merchant: merchant, transaction_import: transaction_import, count: 1)
+      transaction = build(:transaction, purchaser:, item:, merchant:, transaction_import:, count: 1)
       expect(transaction).to be_valid
     end
 
@@ -75,8 +75,8 @@ RSpec.describe Transaction, type: :model do
     it "calculates the correct total income for multiple transactions" do
       item1 = create(:item, price: 10.0)
       item2 = create(:item, price: 20.0)
-      create(:transaction, item: item1, count: 2, transaction_import: transaction_import)
-      create(:transaction, item: item2, count: 3, transaction_import: transaction_import)
+      create(:transaction, item: item1, count: 2, transaction_import:)
+      create(:transaction, item: item2, count: 3, transaction_import:)
 
       expect(Transaction.all_time_total_income).to eq(10.0 * 2 + 20.0 * 3)
     end

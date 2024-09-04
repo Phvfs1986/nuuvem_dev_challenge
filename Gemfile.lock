@@ -111,6 +111,7 @@ GEM
       responders
       warden (~> 1.2.3)
     diff-lcs (1.5.1)
+    docile (1.4.1)
     dotenv (3.1.2)
     dotenv-rails (3.1.2)
       dotenv (= 3.1.2)
@@ -341,6 +342,12 @@ GEM
       logger
       rack (>= 2.2.4)
       redis-client (>= 0.22.2)
+    simplecov (0.22.0)
+      docile (~> 1.1)
+      simplecov-html (~> 0.11)
+      simplecov_json_formatter (~> 0.1)
+    simplecov-html (0.12.3)
+    simplecov_json_formatter (0.1.4)
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
@@ -434,35 +441,36 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
-  active_storage_validations
-  bootsnap
-  brakeman
-  capybara
-  debug
-  devise (~> 4.9)
-  dotenv-rails
-  factory_bot_rails
-  importmap-rails
-  jbuilder
-  omniauth
-  omniauth-google-oauth2
-  omniauth-rails_csrf_protection
-  pagy
-  puma (>= 5.0)
-  rails (~> 7.2.1)
-  rails-controller-testing
-  rspec-rails
-  rubocop-rails-omakase
-  selenium-webdriver
-  sidekiq (~> 7.3)
-  sprockets-rails
+  active_storage_validations (= 1.1.4)
+  bootsnap (= 1.18.4)
+  brakeman (= 6.2.1)
+  capybara (= 3.40.0)
+  debug (= 1.9.2)
+  devise (= 4.9.4)
+  dotenv-rails (= 3.1.2)
+  factory_bot_rails (= 6.4.3)
+  importmap-rails (= 2.0.1)
+  jbuilder (= 2.12.0)
+  omniauth (= 2.1.2)
+  omniauth-google-oauth2 (= 1.1.3)
+  omniauth-rails_csrf_protection (= 1.0.2)
+  pagy (= 9.0.8)
+  puma (= 6.4.2)
+  rails (= 7.2.1)
+  rails-controller-testing (= 1.0.5)
+  rspec-rails (= 6.1.4)
+  rubocop-rails-omakase (= 1.0.0)
+  selenium-webdriver (= 4.24.0)
+  sidekiq (= 7.3.1)
+  simplecov (= 0.22.0)
+  sprockets-rails (= 3.5.2)
   sqlite3 (>= 1.4)
-  standard (>= 1.35.1)
-  stimulus-rails
-  tailwindcss-rails
-  turbo-rails
+  standard (= 1.40.0)
+  stimulus-rails (= 1.3.4)
+  tailwindcss-rails (= 2.7.3)
+  turbo-rails (= 2.0.6)
   tzinfo-data
-  web-console
+  web-console (= 4.2.1)
 
 BUNDLED WITH
    2.5.17

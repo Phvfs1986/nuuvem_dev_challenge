@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe Merchant, type: :model do
   describe "validations" do
     it "is valid with valid attributes" do
-      merchant = create(:merchant)
+      merchant = build(:merchant)
       expect(merchant).to be_valid
     end
 

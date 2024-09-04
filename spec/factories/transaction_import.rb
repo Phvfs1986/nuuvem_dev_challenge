@@ -1,7 +1,8 @@
 FactoryBot.define do
   factory :transaction_import do
     import_status { :initializing }
-    file_total_income { 0.0 }
+    file_total_income { 50.0 }
+    uploaded_at { Time.current }
 
     trait :with_valid_file do
       after(:build) do |transaction_import|

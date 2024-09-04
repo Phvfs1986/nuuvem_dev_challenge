@@ -6,7 +6,7 @@ class TransactionImportsController < ApplicationController
   def show
     transaction_import = TransactionImport.find(params[:id])
     @transaction_import = TransactionImportSerializer.new(transaction_import)
-    # @transactions = transaction_import.transactions
+
     @pagy, @transactions = pagy(transaction_import.transactions, limit: 20)
   end
 

@@ -5,6 +5,14 @@ class TransactionImportSerializer < ApplicationSerializer
 
   attributes :uploaded_at, :file_total_income, :import_status, actions: "Actions"
 
+  STATUS_COLORS = {
+    initializing: "gray",
+    enqueued: "yellow",
+    processing: "blue",
+    finished: "green",
+    error: "red"
+  }
+
   def initialize(transaction_import)
     @transaction_import = transaction_import
   end
@@ -14,12 +22,14 @@ class TransactionImportSerializer < ApplicationSerializer
   end
 
   def file_total_income
-    number_to_currency(@transaction_import.file_total_income, unit: "$")
+    content_tag(:strong, number_to_currency(@transaction_import.file_total_income, unit: "$"))
   end
 
   def import_status
-    content_tag(:span, class: badge_color) do
-      @transaction_import.import_status&.upcase
+    import_status = @transaction_import.import_status
+    color = STATUS_COLORS[import_status&.to_sym]
+    content_tag(:span, class: "bg-#{color}-100 text-#{color}-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-#{color}-900 dark:text-#{color}-300") do
+      import_status&.upcase
     end
   end
 
@@ -43,21 +53,5 @@ class TransactionImportSerializer < ApplicationSerializer
 
   def helpers
     ActionController::Base.helpers
-  end
-
-  def badge_color
-    case @transaction_import.import_status
-    when "initializing"
-      "bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-gray-300"
-    when "enqueued"
-      "bg-yellow-100 text-yellow-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300"
-    when "processing"
-      "bg-blue-100 text-blue-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-blue-900 dark:text-blue-300"
-    when "finished"
-      "bg-green-100 text-green-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-green-900 dark:text-green-300"
-    when "error"
-      "bg-red-100 text-red-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-red-900 dark:text-red-300"
-    else "bg-gray-100 text-gray-800 text-sm font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-900 dark:text-gray-300"
-    end
   end
 end
