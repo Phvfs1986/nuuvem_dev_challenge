@@ -17,7 +17,7 @@ gem "stimulus-rails", "1.3.4"
 # Use Tailwind CSS [https://github.com/rails/tailwindcss-rails]
 gem "tailwindcss-rails", "2.7.3"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
-gem "jbuilder", "2.12.0"
+gem "jbuilder", "2.13.0"
 # Use Redis adapter to run Action Cable in production
 # gem "redis", ">= 4.0.1"
 
