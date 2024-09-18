@@ -3,14 +3,15 @@ require "rails_helper"
 RSpec.describe TransactionImportsController, type: :controller do
   include Devise::Test::ControllerHelpers
 
+  let(:transaction_import) { create(:transaction_import, :with_valid_file) }
+
   before do
-    @user = FactoryBot.create(:user)
+    @user = create(:user)
     sign_in @user
   end
 
   describe "GET #index" do
     it "assigns all transaction imports to @transaction_imports" do
-      transaction_import = create(:transaction_import, :with_valid_file)
       get :index
       expect(assigns(:transaction_imports)).to eq([transaction_import])
     end
@@ -18,14 +19,12 @@ RSpec.describe TransactionImportsController, type: :controller do
 
   describe "GET #show" do
     it "assigns the requested transaction import to @transaction_import" do
-      transaction_import = create(:transaction_import, :with_valid_file)
       get :show, params: {id: transaction_import.id}
-      expect(assigns(:transaction_import)).to be_a(TransactionImportSerializer)
+      expect(assigns(:transaction_import)).to be_a(TransactionImportDecorator)
     end
 
     it "paginates the transactions" do
-      transaction_import = create(:transaction_import, :with_valid_file)
-      create_list(:transaction, 30, transaction_import: transaction_import)
+      create_list(:transaction, 30, transaction_import:)
       get :show, params: {id: transaction_import.id}
       expect(assigns(:pagy)).not_to be_nil
       expect(assigns(:transactions).count).to eq(20)
@@ -42,11 +41,11 @@ RSpec.describe TransactionImportsController, type: :controller do
   describe "POST #create" do
     let(:file) { fixture_file_upload("example_input.tab", "text/tab-separated-values") }
     let(:transaction_import_params) { {transaction_import: {order_file: file}} }
-    let(:service) { instance_double(Transactions::ProcessImport, call: transaction_import) }
+    let(:service) { instance_double(Transactions::ImportProcessor, call: transaction_import) }
     let(:transaction_import) { build_stubbed(:transaction_import) }
 
     before do
-      allow(Transactions::ProcessImport).to receive(:new).and_return(service)
+      allow(Transactions::ImportProcessor).to receive(:new).and_return(service)
     end
 
     context "when the transaction import is successfully created" do
@@ -73,7 +72,7 @@ RSpec.describe TransactionImportsController, type: :controller do
       end
 
       it "sets a flash alert with the error messages" do
-        expect(flash.now[:alert]).to eq("Error message")
+        expect(flash.now[:alert]).to eq("Failed to process the file: Error message")
       end
     end
   end

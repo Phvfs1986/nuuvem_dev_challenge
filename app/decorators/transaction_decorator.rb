@@ -1,4 +1,4 @@
-class TransactionSerializer < ApplicationSerializer
+class TransactionDecorator < ApplicationDecorator
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::TagHelper
@@ -23,7 +23,7 @@ class TransactionSerializer < ApplicationSerializer
   end
 
   def item_price
-    number_to_currency(@transaction.item.price * @transaction.count, unit: "$")
+    number_to_currency(@transaction.price, unit: "$")
   end
 
   def count
@@ -31,7 +31,7 @@ class TransactionSerializer < ApplicationSerializer
   end
 
   def income
-    content_tag(:strong, number_to_currency(@transaction.item.price * @transaction.count, unit: "$"))
+    content_tag(:strong, number_to_currency(@transaction.price * @transaction.count, unit: "$"))
   end
 
   private

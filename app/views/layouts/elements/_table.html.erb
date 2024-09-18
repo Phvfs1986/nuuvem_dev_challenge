@@ -1,7 +1,7 @@
 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
   <thead class="text-xs text-gray-700 uppercase bg-gray-50">
     <tr>
-      <% serializer.get_labels.each do |field| %>
+      <% decorator.get_labels.each do |field| %>
         <th scope="col" class="px-6 py-3"><%= field %></th>
       <% end %>
     </tr>
@@ -9,8 +9,8 @@
   <tbody>
     <% collection.each do |element| %>
       <tr class="bg-white border-b">
-        <% serializer.get_attributes.each do |field| %>
-          <td class="px-6 py-4"><%= serializer.new(element).public_send(field) %></td>
+        <% decorator.get_attributes.each do |field| %>
+          <td class="px-6 py-4"><%= decorator.new(element).public_send(field) %></td>
         <% end %>
       </tr>
     <% end %>

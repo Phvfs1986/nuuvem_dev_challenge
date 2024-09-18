@@ -25,7 +25,7 @@
         <%= render partial: "layouts/elements/table",
           locals: {
             collection: @transaction_imports,
-            serializer: TransactionImportSerializer
+            decorator: TransactionImportDecorator
           }
         %>
       </div>

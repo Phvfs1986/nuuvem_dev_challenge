@@ -5,9 +5,9 @@ class TransactionImportsController < ApplicationController
 
   def show
     transaction_import = TransactionImport.find(params[:id])
-    @transaction_import = TransactionImportSerializer.new(transaction_import)
+    @transaction_import = TransactionImportDecorator.new(transaction_import)
 
-    @pagy, @transactions = pagy(transaction_import.transactions, limit: 20)
+    @pagy, @transactions = pagy(transaction_import.transactions.includes(:purchaser, :merchant), limit: 20)
   end
 
   def new
@@ -15,12 +15,15 @@ class TransactionImportsController < ApplicationController
   end
 
   def create
-    @transaction_import = Transactions::ProcessImport.new(**transaction_imports_params.to_h.symbolize_keys).call
+    @transaction_import = Transactions::ImportProcessor.new(transaction_imports_params[:order_file]).call
 
-    return redirect_to action: :index if @transaction_import.persisted?
-
-    flash.now[:alert] = @transaction_import.errors.full_messages.join("\n")
-    render :new, status: :bad_request
+    if @transaction_import.persisted?
+      flash[:notice] = "Your file is being processed. Please check the status later."
+      redirect_to action: :index
+    else
+      flash.now[:alert] = "Failed to process the file: #{@transaction_import.errors.full_messages.join(", ")}"
+      render :new, status: :bad_request
+    end
   end
 
   private

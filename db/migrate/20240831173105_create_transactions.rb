@@ -6,6 +6,7 @@ class CreateTransactions < ActiveRecord::Migration[7.2]
       t.references :item, null: false, foreign_key: true
       t.references :merchant, null: false, foreign_key: true
       t.references :transaction_import, null: false, foreign_key: true
+      t.decimal :price, precision: 8, scale: 2
 
       t.timestamps
     end

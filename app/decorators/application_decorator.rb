@@ -1,4 +1,4 @@
-class ApplicationSerializer
+class ApplicationDecorator
   class << self
     def attributes(*args)
       @attributes ||= {}

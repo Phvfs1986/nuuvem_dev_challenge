@@ -3,69 +3,65 @@ require "rails_helper"
 RSpec.describe Transaction, type: :model do
   let(:transaction_import) { create(:transaction_import, :with_valid_file) }
   let(:purchaser) { create(:purchaser) }
-  let(:item) { create(:item, price: 10.0) }
+  let(:item) { create(:item) }
   let(:merchant) { create(:merchant) }
+  let(:transaction) { build(:transaction, purchaser:, item:, merchant:, transaction_import:) }
 
   context "associations" do
     it "belongs to a purchaser" do
-      transaction = create(:transaction)
       expect(transaction.purchaser).to be_present
     end
 
     it "belongs to an item" do
-      transaction = create(:transaction)
       expect(transaction.item).to be_present
     end
 
     it "belongs to a merchant" do
-      transaction = create(:transaction)
       expect(transaction.merchant).to be_present
     end
 
     it "belongs to a transaction_import" do
-      transaction = create(:transaction)
       expect(transaction.transaction_import).to be_present
     end
   end
 
   context "validations" do
     it "is valid with all required attributes" do
-      transaction = build(:transaction, purchaser:, item:, merchant:, transaction_import:, count: 1)
       expect(transaction).to be_valid
     end
 
     it "is invalid without a purchaser" do
-      transaction = build(:transaction, purchaser: nil)
+      transaction.purchaser = nil
       expect(transaction).to_not be_valid
       expect(transaction.errors[:purchaser]).to include("must exist")
     end
 
     it "is invalid without an item" do
-      transaction = build(:transaction, item: nil)
+      transaction.item = nil
       expect(transaction).to_not be_valid
       expect(transaction.errors[:item]).to include("must exist")
     end
 
     it "is invalid without a merchant" do
-      transaction = build(:transaction, merchant: nil)
+      transaction.merchant = nil
       expect(transaction).to_not be_valid
       expect(transaction.errors[:merchant]).to include("must exist")
     end
 
     it "is invalid without a transaction_import" do
-      transaction = build(:transaction, transaction_import: nil)
+      transaction.transaction_import = nil
       expect(transaction).to_not be_valid
       expect(transaction.errors[:transaction_import]).to include("must exist")
     end
 
     it "is invalid with a count less than 1" do
-      transaction = build(:transaction, count: 0)
+      transaction.count = 0
       expect(transaction).to_not be_valid
       expect(transaction.errors[:count]).to include("must be greater than 0")
     end
 
     it "is invalid with a negative count" do
-      transaction = build(:transaction, count: -1)
+      transaction.count = -1
       expect(transaction).to_not be_valid
       expect(transaction.errors[:count]).to include("must be greater than 0")
     end
@@ -73,10 +69,10 @@ RSpec.describe Transaction, type: :model do
 
   context "calculations" do
     it "calculates the correct total income for multiple transactions" do
-      item1 = create(:item, price: 10.0)
-      item2 = create(:item, price: 20.0)
-      create(:transaction, item: item1, count: 2, transaction_import:)
-      create(:transaction, item: item2, count: 3, transaction_import:)
+      item1 = create(:item)
+      item2 = create(:item)
+      create(:transaction, item: item1, price: 10.0, count: 2, transaction_import:)
+      create(:transaction, item: item2, price: 20.0, count: 3, transaction_import:)
 
       expect(Transaction.all_time_total_income).to eq(10.0 * 2 + 20.0 * 3)
     end

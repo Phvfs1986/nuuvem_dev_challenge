@@ -20,18 +20,17 @@ RSpec.describe TransactionImport, type: :model do
 
   describe "#filename" do
     it "returns the filename of the attached file" do
-      transaction_import = create(:transaction_import, :with_valid_file)
+      transaction_import = build(:transaction_import, :with_valid_file)
       expect(transaction_import.filename).to eq("example_input.tab")
     end
   end
 
-  describe "#update_file_total_income" do
-    it "updates the file_total_income based on associated transactions" do
+  describe "#file_total_income" do
+    it "returns the file_total_income based on associated transactions" do
       transaction_import = create(:transaction_import, :with_valid_file)
-      item = create(:item, price: 10.0)
-      create(:transaction, item:, transaction_import:, count: 5)
+      item = create(:item)
+      create(:transaction, item:, price: 10.0, transaction_import:, count: 5)
 
-      transaction_import.update_file_total_income
       expect(transaction_import.file_total_income).to eq(50.0)
     end
   end

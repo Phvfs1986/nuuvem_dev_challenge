@@ -30,8 +30,8 @@
       <h1 class="text-3xl font-semibold mb-4">Items</h1>
       <%= render partial: "layouts/elements/table",
           locals: {
-            collection: @merchant_items,
-            serializer: ItemSerializer
+            collection: @merchant.items,
+            decorator: ItemDecorator
           }
         %>
     </div>

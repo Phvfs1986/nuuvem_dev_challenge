@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_09_03_004931) do
+ActiveRecord::Schema[7.2].define(version: 2024_09_18_031457) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -41,18 +41,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_03_004931) do
 
   create_table "items", force: :cascade do |t|
     t.text "description"
-    t.decimal "price", precision: 10, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "merchant_items", force: :cascade do |t|
-    t.integer "item_id", null: false
-    t.integer "merchant_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["item_id"], name: "index_merchant_items_on_item_id"
-    t.index ["merchant_id"], name: "index_merchant_items_on_merchant_id"
   end
 
   create_table "merchants", force: :cascade do |t|
@@ -60,6 +50,16 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_03_004931) do
     t.text "address"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "price_histories", force: :cascade do |t|
+    t.integer "item_id", null: false
+    t.decimal "price", precision: 8, scale: 2, null: false
+    t.datetime "effective_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_id", "effective_at"], name: "index_price_histories_on_item_id_and_effective_at", unique: true
+    t.index ["item_id"], name: "index_price_histories_on_item_id"
   end
 
   create_table "purchasers", force: :cascade do |t|
@@ -70,7 +70,6 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_03_004931) do
 
   create_table "transaction_imports", force: :cascade do |t|
     t.datetime "uploaded_at"
-    t.decimal "file_total_income"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "import_status"
@@ -82,6 +81,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_03_004931) do
     t.integer "item_id", null: false
     t.integer "merchant_id", null: false
     t.integer "transaction_import_id", null: false
+    t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["item_id"], name: "index_transactions_on_item_id"
@@ -106,8 +106,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_03_004931) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "merchant_items", "items"
-  add_foreign_key "merchant_items", "merchants"
+  add_foreign_key "price_histories", "items"
   add_foreign_key "transactions", "items"
   add_foreign_key "transactions", "merchants"
   add_foreign_key "transactions", "purchasers"

@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe ApplicationSerializer, type: :model do
+RSpec.describe ApplicationDecorator, type: :model do
   subject { described_class }
 
   before do

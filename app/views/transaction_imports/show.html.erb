@@ -36,7 +36,7 @@
       <%= render partial: "layouts/elements/table",
           locals: {
             collection: @transactions,
-            serializer: TransactionSerializer
+            decorator: TransactionDecorator
           }
         %>
     </div>

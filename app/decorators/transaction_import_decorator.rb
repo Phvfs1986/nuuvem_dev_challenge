@@ -1,4 +1,4 @@
-class TransactionImportSerializer < ApplicationSerializer
+class TransactionImportDecorator < ApplicationDecorator
   include Rails.application.routes.url_helpers
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::TagHelper

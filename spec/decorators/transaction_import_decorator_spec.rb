@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe TransactionImportSerializer, type: :model do
+RSpec.describe TransactionImportDecorator, type: :model do
   let(:transaction_import) { create(:transaction_import, :with_valid_file) }
   let(:order_file) { double("ActiveStorage::Blob", filename: "example_file.tab") }
 
@@ -19,7 +19,7 @@ RSpec.describe TransactionImportSerializer, type: :model do
 
   describe "#file_total_income" do
     it "formats the file_total_income as currency" do
-      expect(subject.file_total_income).to eq("<strong>$50.00</strong>")
+      expect(subject.file_total_income).to eq("<strong>$0.00</strong>")
     end
   end
 

@@ -1,8 +1,8 @@
-class ItemSerializer < ApplicationSerializer
+class ItemDecorator < ApplicationDecorator
   include ActionView::Helpers::NumberHelper
   include ActionView::Helpers::TagHelper
 
-  attributes :description, :price
+  attributes :description, :current_price
 
   def initialize(item)
     @item = item
@@ -12,7 +12,7 @@ class ItemSerializer < ApplicationSerializer
     @item.description
   end
 
-  def price
-    content_tag(:strong, number_to_currency(@item.price))
+  def current_price
+    content_tag(:strong, number_to_currency(@item.current_price))
   end
 end
