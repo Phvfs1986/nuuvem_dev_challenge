@@ -221,7 +221,7 @@ GEM
     psych (5.1.2)
       stringio
     public_suffix (6.0.1)
-    puma (6.4.2)
+    puma (6.4.3)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.1.7)
@@ -457,7 +457,7 @@ DEPENDENCIES
   omniauth-rails_csrf_protection (= 1.0.2)
   pagy (= 9.0.8)
   pg (= 1.5.8)
-  puma (= 6.4.2)
+  puma (= 6.4.3)
   rails (= 7.2.1)
   rails-controller-testing (= 1.0.5)
   rspec-rails (= 6.1.4)
