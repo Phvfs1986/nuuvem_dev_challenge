@@ -68,7 +68,7 @@ end
 
 gem "devise", "4.9.4"
 gem "omniauth", "2.1.2"
-gem "omniauth-google-oauth2", "1.1.3"
+gem "omniauth-google-oauth2", "1.2.0"
 gem "omniauth-rails_csrf_protection", "1.0.2"
 gem "dotenv-rails", "3.1.2"
 gem "sidekiq", "7.3.1"
