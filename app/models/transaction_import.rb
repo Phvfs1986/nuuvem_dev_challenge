@@ -17,8 +17,8 @@ class TransactionImport < ApplicationRecord
     transactions.sum("price * count")
   end
 
-  def change_status(status)
-    update(import_status: status) if IMPORT_STATUS.include?(status)
+  def change_status(import_status)
+    update(import_status:) if IMPORT_STATUS.include?(import_status)
   end
 
   def set_default_import_status

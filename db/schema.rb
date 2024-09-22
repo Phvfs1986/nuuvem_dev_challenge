@@ -11,6 +11,9 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.2].define(version: 2024_09_18_031457) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -53,7 +56,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_18_031457) do
   end
 
   create_table "price_histories", force: :cascade do |t|
-    t.integer "item_id", null: false
+    t.bigint "item_id", null: false
     t.decimal "price", precision: 8, scale: 2, null: false
     t.datetime "effective_at", precision: nil, null: false
     t.datetime "created_at", null: false
@@ -77,10 +80,10 @@ ActiveRecord::Schema[7.2].define(version: 2024_09_18_031457) do
 
   create_table "transactions", force: :cascade do |t|
     t.integer "count"
-    t.integer "purchaser_id", null: false
-    t.integer "item_id", null: false
-    t.integer "merchant_id", null: false
-    t.integer "transaction_import_id", null: false
+    t.bigint "purchaser_id", null: false
+    t.bigint "item_id", null: false
+    t.bigint "merchant_id", null: false
+    t.bigint "transaction_import_id", null: false
     t.decimal "price", precision: 8, scale: 2
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

@@ -1,6 +1,6 @@
 class TransactionImportsController < ApplicationController
   def index
-    @pagy, @transaction_imports = pagy(TransactionImport.all, items: 20)
+    @pagy, @transaction_imports = pagy(TransactionImport.all.order("uploaded_at"), items: 20)
   end
 
   def show

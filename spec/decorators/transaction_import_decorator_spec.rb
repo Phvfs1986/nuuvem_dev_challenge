@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe TransactionImportDecorator, type: :model do
   let(:transaction_import) { create(:transaction_import, :with_valid_file) }
   let(:order_file) { double("ActiveStorage::Blob", filename: "example_file.tab") }
+  let(:transaction_import_id) { transaction_import.id }
 
   subject { described_class.new(transaction_import) }
 
@@ -81,14 +82,22 @@ RSpec.describe TransactionImportDecorator, type: :model do
     end
 
     describe "#download_link" do
+      before do
+        allow(subject).to receive(:rails_blob_path).and_return("/rails/active_storage/blobs/redirect/mock_blob_id/example_input.tab")
+      end
+
       it "returns the correct download link HTML" do
-        expect(subject.download_link).to eq("<span><a class=\"underline text-blue-500 pointer\" href=\"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MSwicHVyIjoiYmxvYl9pZCJ9fQ==--061e17fe8f02d892a8dd5ba8e3902c8e7f80be97/example_input.tab\">example_input.tab</a></span>")
+        expect(subject.download_link).to eq("<span><a class=\"underline text-blue-500 pointer\" href=\"/rails/active_storage/blobs/redirect/mock_blob_id/example_input.tab\">example_input.tab</a></span>")
       end
     end
 
     describe "#actions" do
+      before do
+        allow(subject).to receive(:rails_blob_path).and_return("/rails/active_storage/blobs/redirect/mock_blob_id/example_input.tab")
+      end
+
       it "returns the correct actions HTML" do
-        expect(subject.actions).to eq("<a class=\"underline text-blue-500 pointer\" href=\"/transaction_imports/1\">Show</a> | <a class=\"underline text-blue-500 pointer\" href=\"/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MSwicHVyIjoiYmxvYl9pZCJ9fQ==--061e17fe8f02d892a8dd5ba8e3902c8e7f80be97/example_input.tab\">Download File</a>")
+        expect(subject.actions).to eq("<a class=\"underline text-blue-500 pointer\" href=\"/transaction_imports/#{transaction_import_id}\">Show</a> | <a class=\"underline text-blue-500 pointer\" href=\"/rails/active_storage/blobs/redirect/mock_blob_id/example_input.tab\">Download File</a>")
       end
     end
   end

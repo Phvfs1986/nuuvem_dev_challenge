@@ -3,6 +3,7 @@ class TransactionProcessorJob
 
   def perform(transaction_import_id)
     transaction_import = TransactionImport.find(transaction_import_id)
+
     transaction_import.change_status(:processing)
 
     process_file(transaction_import)

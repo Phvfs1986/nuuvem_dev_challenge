@@ -1,9 +1,9 @@
 :logfile: ./log/sidekiq.log
-:concurrency: 2
+:concurrency: 5
 staging:
- :concurrency: 2
+ :concurrency: 5
 develop:
- :concurrency: 2
+ :concurrency: 5
 :queues:
  - critical
  - default

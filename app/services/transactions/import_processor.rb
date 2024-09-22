@@ -20,7 +20,9 @@ module Transactions
 
     def handle_status_and_enqueue(transaction_import)
       transaction_import.change_status(:initializing)
+
       TransactionProcessorJob.perform_async(transaction_import.id)
+
       transaction_import.change_status(:enqueued)
     end
   end
